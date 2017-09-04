@@ -1,6 +1,14 @@
 var dirPath = new Folder ("C:\\Program Files\\Adobe\\Adobe After Effects CC 2015\\Support Files\\Scripts");
 var scriptList = dirPath.getFiles('*.jsx');
 
+function runScript(_path)
+		{
+			var scriptFile = new File(_path);
+			scriptFile.open();
+			eval(scriptFile.read());
+			scriptFile.close();
+		}
+
 var Node = function (name) {
     this.children = [];
     this.name = name;
@@ -46,7 +54,7 @@ function BTN(_parrent, _label, handler){
 
 BTN.prototype = {
         event: function (_line) {
-           this.button.onClick = function(){alert(_line)}
+           this.button.onClick = function(){runScript(_line)}
         }
 };
 
@@ -66,14 +74,14 @@ function LineStrokeComponent (_parrent, _st_text, _et_text, _btn_label){
 var node_element = []
 
 
-var w = new Window ("dialog");
+var w = new Window ("palette");
 
 var g = w.add("group", undefined, "main group");
 g.orientation = "column";
 
 for(var i = 0; i <=scriptList.length-1; i++) {
     var n = new LineStrokeComponent(g,"","", scriptList[i].displayName);
-    n.but.event(scriptList[i].displayName);
+    n.but.event(scriptList[i].absoluteURI);
     node_element[i] = new Node(scriptList[i].displayName);
 }
 
