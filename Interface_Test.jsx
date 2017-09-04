@@ -1,4 +1,6 @@
-var scriptList = ["Particular","Form","Element","Optical Flares","Levels","Curves","Noise","Mosaic"];
+var dirPath = new Folder ("C:\\Program Files\\Adobe\\Adobe After Effects CC 2015\\Support Files\\Scripts");
+var scriptList = dirPath.getFiles('*.jsx');
+
 var Node = function (name) {
     this.children = [];
     this.name = name;
@@ -39,7 +41,7 @@ function ET(_parrent, _et_Text){
 function BTN(_parrent, _label, handler){
         var btn = _parrent.add("button",undefined, _label);
         this.button = btn;
-        btn.size = [150,23];
+        btn.size = [350,23];
 };
 
 BTN.prototype = {
@@ -63,14 +65,16 @@ function LineStrokeComponent (_parrent, _st_text, _et_text, _btn_label){
 
 var node_element = []
 
+
 var w = new Window ("dialog");
+
 var g = w.add("group", undefined, "main group");
 g.orientation = "column";
 
 for(var i = 0; i <=scriptList.length-1; i++) {
-    var n = new LineStrokeComponent(g,"","", scriptList[i]);
-    n.but.event(scriptList[i]);
-    node_element[i] = new Node(scriptList[i]);
+    var n = new LineStrokeComponent(g,"","", scriptList[i].displayName);
+    n.but.event(scriptList[i].displayName);
+    node_element[i] = new Node(scriptList[i].displayName);
 }
 
 w.show()
